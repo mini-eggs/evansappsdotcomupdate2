@@ -12,7 +12,7 @@ const renderPage = page => {
 const findPage = ( pages, page ) => {
   let currentPage = false
   pages.forEach( aPage => {
-    if( aPage.name.toLowerCase() === page.toLowerCase() ) {
+    if( aPage.slug.toLowerCase().trim() === page.toLowerCase().trim() ) {
       currentPage = aPage
     }
   })
