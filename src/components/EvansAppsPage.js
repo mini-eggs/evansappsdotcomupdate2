@@ -4,8 +4,27 @@ import LoadingComp from './Loading'
 import { connect } from 'react-redux'
 
 const renderPage = page => {
+  const style = {
+    image: {
+      backgroundImage: `url(${page.image})`
+    }
+  }
   return (
-    <div dangerouslySetInnerHTML={{ __html: page.description }} />
+    <div className="content no__padding page__container">
+      <div className="col-xs-12 col-sm-8 no__padding min__height vert__align__container">
+        <div 
+          dangerouslySetInnerHTML={{ __html: page.description }} 
+          className="padding vert__align"
+        />
+      </div>
+      <div className="col-xs-12 col-sm-4 no__padding min__height image__container" >
+        <div
+          className="background__image image"
+          style={style.image}
+        />
+      </div>
+      <div className="clear" />
+    </div>
   )
 }
 

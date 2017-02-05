@@ -11,9 +11,12 @@ const renderPost = props => {
       <Link
         to={`${BaseURL}/blog/${post.slug}`}
       >
-        {
-          post.name
-        }
+        <h1>
+          {
+            post.name
+          }
+        </h1>
+        <br/>
       </Link>
     </div>
   )
@@ -21,7 +24,7 @@ const renderPost = props => {
 
 const renderBlogPosts = posts => {
   return (
-    <div>
+    <div className="content padding blog__container">
       {
         posts.map( (post, index) => {
           const RenderPost = renderPost

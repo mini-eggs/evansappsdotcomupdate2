@@ -4,20 +4,30 @@ import { Link } from 'react-router'
 import { BaseURL } from '../routes'
 import { connect } from 'react-redux'
 
-const renderSidebar = tabs => {
+const renderMenu = tabs => {
   return (
-    <div>
+    <div
+      className="text__center"
+    >
       {
         tabs.map( (tab, index) => {
           const url = tab.slug.indexOf('://') > -1 
             ? tab.slug 
             : BaseURL + tab.slug
+          const type = tab.slug.indexOf('://') > -1 
+            ? { href: url }
+            : { to: url }
           return (
             <Link 
               key={index} 
-              to={url}
+              {...type}
+              className="tab__link"
+              activeClassName="tab__link__active"
             >
-              {tab.name}
+              <i 
+                className={tab.icon} 
+                aria-hidden="true"
+              />
             </Link>
           )
         })
@@ -29,24 +39,17 @@ const renderSidebar = tabs => {
 const EvansAppsHeader = props => {
   const { entries } = props  
   return (
-    <div className="row">
-      <div className="col-xs-12 col-sm-6">
-        <div>
-          Evans Jones
-        </div>
-        <div>
-          web & app developer
-        </div>
-      </div>
-      <div className="col-xs-12 col-sm-6 text-right">
-        { entries ? renderSidebar( entries.tabs ) : <LoadingComp/> }
-      </div>
+    <div>
+      { entries ? renderMenu( entries.tabs ) : <LoadingComp/> }
     </div>
   )
 }
 
 const getProps = state => {
-  return { entries: state.entries }
+  return { 
+    entries: state.entries,
+    routing: state.routing
+  }
 }
 
 export default connect(getProps)(EvansAppsHeader)

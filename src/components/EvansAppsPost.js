@@ -5,7 +5,17 @@ import { connect } from 'react-redux'
 
 const renderPost = post => {
   return (
-    <div dangerouslySetInnerHTML={{ __html: post.description }} />
+    <div className="content">
+      <div className="padding">
+        <h1>
+          {
+            post.name
+          }
+        </h1>
+        <br/>
+        <h3 dangerouslySetInnerHTML={{ __html: post.description }} />
+      </div>
+    </div>
   )
 }
 
@@ -22,7 +32,7 @@ const findPost = ( posts, blog ) => {
 const EvansAppsPage = props => {
   const { blogPost, routeParams } = props
   return (
-    <div>
+    <div className="post__container">
       {
         blogPost ? findPost( blogPost, routeParams.blog ) : <LoadingComp/>
       }
