@@ -1,20 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { BaseURL } from '../routes'
-import LoadingComp from './Loading'
 
-const renderPost = props => {
-  const { post } = props
+const renderPost = (post, index) => {
   return (
-    <div>
-      <Link
-        to={`${BaseURL}/blog/${post.slug}`}
-      >
+    <div key={index}>
+      <Link to={`/blog/${post.slug}`} >
         <h1>
-          {
-            post.name
-          }
+          {post.name}
         </h1>
         <br/>
       </Link>
@@ -22,37 +15,16 @@ const renderPost = props => {
   )
 }
 
-const renderBlogPosts = posts => {
+const EvansAppsBlog = data => {
   return (
-    <div className="content padding blog__container">
-      {
-        posts.map( (post, index) => {
-          const RenderPost = renderPost
-          return (
-            <RenderPost 
-              key={index}
-              post={post}
-            />
-          )
-        })
-      }
-    </div>
-  )
-}
-
-const EvansAppsBlog = props => {
-  const { blogPost } = props
-  return (
-    <div>
-      {
-        blogPost ? renderBlogPosts( blogPost ) : <LoadingComp/>
-      }
+    <div className="content">
+      {data.posts.map(renderPost)}
     </div>
   )
 }
 
 const getProps = state => {
-  return { blogPost: state.entries ? state.entries.blogPost : state.entries }
+  return { posts: state.entries ? state.entries.blogPost : [] }
 }
 
 export default connect(getProps)(EvansAppsBlog)

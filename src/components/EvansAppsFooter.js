@@ -1,49 +1,29 @@
 import React from 'react'
-import LoadingComp from './Loading'
 import { Link } from 'react-router'
-import { BaseURL } from '../routes'
 import { connect } from 'react-redux'
 
-const renderFooter = about => {
+const renderFooterLinks = (link, index) => {
   return (
-    <div
-      className="text__center"
-    >
-      {
-        about.links.map( (link, index) => {
-          return (
-            <Link 
-              key={index} 
-              href={link.url}
-              className="tab__link"
-              activeClassName="tab__link__active"
-            >
-              <i 
-                className={link.icon} 
-                aria-hidden="true"
-              />
-            </Link>
-          )
-        })
-      }
+    <div key={index}>
+      <Link href={link.url}>
+        <h6>
+          {link.name}
+        </h6>
+      </Link>
     </div>
   )
 }
 
-const EvansAppsHeader = props => {
-  const { entries } = props  
+const EvansAppsHeader = data => {
   return (
-    <footer>
-      { entries ? renderFooter( entries.about[0] ) : <LoadingComp/> }
-    </footer>
+    <div>
+      {data.links.map(renderFooterLinks)}
+    </div>
   )
 }
 
 const getProps = state => {
-  return { 
-    entries: state.entries,
-    routing: state.routing
-  }
+  return { links: state.entries ? state.entries.about[0].links : [] }
 }
 
 export default connect(getProps)(EvansAppsHeader)

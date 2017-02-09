@@ -1,38 +1,40 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import LoadingComp from '../components/Loading'
 import { loadEntries } from '../actions'
 import EvansAppsHeader from '../components/EvansAppsHeader'
-import EvansAppsFooter from '../components/EvansAppsFooter'
 
-const load = props => {
-  props.loadEntries()
+const load = fn => {
+  const style = { img: { opacity: 0 } }
+  const loader = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+  return (
+    <img 
+      role="presentation"
+      style={style.img}
+      onLoad={fn} 
+      src={loader}
+    />
+  )
 }
 
-class EvansAppsContainer extends React.Component {
-
-  componentDidMount () {
-    load( this.props )
-  }
-
-  renderData (props) {
-    return (
-      <div className="container">
-        <div className="container__inner">
-          <EvansAppsHeader/>
-          <div className="content__container">
-            { this.props.children }
-          </div>
-          <EvansAppsFooter/>
-        </div>
+const container = children => {
+  return (
+    <div className="container-fluid">
+      <div>
+        <header>
+          <nav>
+            <EvansAppsHeader/>
+          </nav>
+        </header>
       </div>
-    )
-  }
+      <div>
+        {children}
+      </div>
+    </div>
+  )
+}
 
-  render () {
-    const { entries } = this.props
-    return entries ? this.renderData(this.props) : <LoadingComp/>
-  }
+const EvansAppsContainer = props => {
+  return props.entries ? container(props.children) : load(props.loadEntries)
 }
 
 const getProps = state => {

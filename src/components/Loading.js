@@ -1,6 +1,6 @@
 import React from 'react'
 
-const emoji = <h1 className="emoji">😊</h1>
+// const emoji = <h1 className="emoji">😊</h1>
 
 export default () => {
   return (

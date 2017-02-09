@@ -1,53 +1,26 @@
 import React from 'react'
-import LoadingComp from './Loading'
 import { Link } from 'react-router'
-import { BaseURL } from '../routes'
 import { connect } from 'react-redux'
 
-const renderMenu = tabs => {
-  return (
-    <div
-      className="text__center"
-    >
-      {
-        tabs.map( (tab, index) => {
-          const url = tab.slug.indexOf('://') > -1 
-            ? tab.slug 
-            : BaseURL + tab.slug
-          const type = tab.slug.indexOf('://') > -1 
-            ? { href: url }
-            : { to: url }
-          return (
-            <Link 
-              key={index} 
-              {...type}
-              className="tab__link"
-              activeClassName="tab__link__active"
-            >
-              <i 
-                className={tab.icon} 
-                aria-hidden="true"
-              />
-            </Link>
-          )
-        })
-      }
-    </div>
-  )
+const renderTab = (tab, index) => {
+  const slug = tab.slug || tab.url
+  const attribute = slug.indexOf('http') > -1 ? 'href' : 'to'
+  const link = {}
+  link[ attribute ] = slug
+  return <Link key={index} {...link} className="link" activeClassName="link__active">{tab.name}</Link>
 }
 
-const EvansAppsHeader = props => {
-  const { entries } = props  
+const EvansAppsHeader = data => {
   return (
-    <div>
-      { entries ? renderMenu( entries.tabs ) : <LoadingComp/> }
+    <div className="nav__container">
+      {data.tabs.map(renderTab)}
     </div>
   )
 }
 
 const getProps = state => {
-  return { 
-    entries: state.entries,
+  return {
+    tabs: state.entries ? [ ...state.entries.tabs, ...state.entries.about[0].links ] : [],
     routing: state.routing
   }
 }

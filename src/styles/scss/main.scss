@@ -1,252 +1,129 @@
-@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
-// @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2);
-
-$triangle: 50px;
-$triangleMargin: -25px;
-$contentBackground: #f1f1f1;
-$radius: 3px;
-$transformDuration: 250ms;
+// @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
 
 * {
   outline: none !important;
   box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+img {
+  width: 100%;
 }
 
 html {
-  background: -moz-linear-gradient(120deg, rgba(54,84,128,1) 0%, rgba(0,128,128,1) 100%); /* ff3.6+ */
-  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(0,128,128,1)), color-stop(100%, rgba(54,84,128,1))); /* safari4+,chrome */
-  background: -webkit-linear-gradient(120deg, rgba(54,84,128,1) 0%, rgba(0,128,128,1) 100%); /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(120deg, rgba(54,84,128,1) 0%, rgba(0,128,128,1) 100%); /* opera 11.10+ */
-  background: -ms-linear-gradient(120deg, rgba(54,84,128,1) 0%, rgba(0,128,128,1) 100%); /* ie10+ */
-  background: linear-gradient(330deg, rgba(54,84,128,1) 0%, rgba(0,128,128,1) 100%); /* w3c */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008080', endColorstr='#365480',GradientType=0 ); /* ie6-9 */
-  font-family: 'Source Sans Pro', sans-serif;
+  background: -webkit-gradient(linear,left top,right bottom,color-stop(0,teal),color-stop(100%,#365480));
+  background: -webkit-linear-gradient(120deg,#365480,teal);
+  background: linear-gradient(330deg,#365480,teal);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#008080',endColorstr='#365480',GradientType=0);
+  font-family: Source Sans Pro,sans-serif;
   overflow-y: scroll;
   min-height: 100vh;
 
-  h1 {
-    font-size: 48px;
-    font-weight: 800;
-    @media (max-width: 948px) {
-      font-size: 5vw;
-    }
-  }
-  h2 {
-    font-size: 32px;
-    @media (max-width: 948px) {
-      font-size: 4vw;
-    }
-  }
-  h3 {
-    font-size: 18px;
-    font-weight: 800;
-    line-height: 24px;
-    @media (max-width: 948px) {
-      font-size: 3vw;
-      line-height: 6vw;
-    }
-  }
 
-  em {
-    color: grey;
-  }
-
-  img {
-    width: 100%;
-  }
-
-  footer {
-    margin-top: 75px;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-    &:hover {
-      color: inherit;
-      text-decoration: underline;
-    }
-    &:visted {
-      color: inherit;
-    }
-    &:focus {
-      color: inherit;
-    }
-    &:active {
-      color: inherit;
-    }
-  }
 
   body {
-    background: transparent !important;
+    background-color: transparent;
 
     #root {
 
-      .loading__container {
-        position: absolute;
-        top: 50%;
-        -webkit-transform: translateY(-50%);
-        -moz-transform:    translateY(-50%);
-        -ms-transform:     translateY(-50%);
-        -o-transform:      translateY(-50%);
-        transform:         translateY(-50%);
-        width: 100%;
-        text-align: center;
-        left: 0;
-        h2 {
-          color: white;
-        }
-      }
-
-      .vert__align__container {
-        position: relative;
-      }
-
-      .vert__align {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        -webkit-transform: translateY(-50%);
-        -moz-transform:    translateY(-50%);
-        -ms-transform:     translateY(-50%);
-        -o-transform:      translateY(-50%);
-        transform:         translateY(-50%);
-      }
-
-      .clear {
-        clear: both;
-      }
-
-      .background__image {
-        background-position: center center;
-        background-size: cover;
-      }
-      .container__inner {
-        margin-top: 150px;
-        @media (max-width: 948px) {
-          margin-top: 75px;
-        }
-        @media (max-width: 480px) {
-          margin-top: 0;
-        }
-      }
-      .content__container {
-        position: relative;
-        z-index: 9;
-        max-width: 800px;
-        margin: 5px auto 0 auto;
-      }
       .content {
-        white-space: pre-wrap;
-        background-color: $contentBackground;
-        border-radius: $radius;
-        overflow: hidden;
-        font-size: 600;
+        animation-duration: 400ms;
+        animation-fill-mode: both;
       }
-      .blog__container {
-        div:last-child {
-          br {
-            display: none;
-          }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translate3d(0, -10px, 0);
         }
-        a {
-          color: black !important;
-        }
-      }
-      .page__container {
-        .min__height {
-          min-height: 400px;
-          @media (max-width: 768px) {
-            min-height: 25vh;
-          }
-        }
-        .image__container {
-          position: absolute;
-          height: 100%;
-          right: 0px;
-          @media (max-width: 768px) {
-            position: relative;
-            margin-bottom: -1px;
-          }
-          .image {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            top: 0px;
-            left: 0px;
-          }
+
+        to {
+          opacity: 1;
+          transform: none;
         }
       }
-      .post__container {
-        h1 {
-          margin-bottom: 50px;
-          @media (max-width: 768px) {
-              margin-bottom: 15px;
-          }
+
+      .content {
+        animation-name: fadeInUp;
+      }
+
+      .nav__container {
+        // background-color: #333;
+        background-color: rgba(255,255,255,0.2);
+        overflow: auto;
+        white-space: nowrap;
+
+        a.link {
+          display: inline-block;
+          color: white;
+          text-align: center;
+          padding: 15px;
+          text-decoration: none;
+        }
+
+        a.link__active,
+        a:hover {
+            background-color: black;
         }
       }
-      .no__padding {
+
+      .container-fluid {
         padding: 0;
       }
-      .padding {
-        padding: 75px 50px 100px;
-        @media (max-width: 768px) {
-          padding: 25px 15px 50px;
-        }
-      }
 
-      .tab__link {
-        color: $contentBackground;
-        font-size: 36px;
-        padding: 15px;
-        line-height: 96px;
+      header {
+        max-width: 630px;
+        margin: 15px auto 0;
         position: relative;
-        opacity: 0.5;
-        transition-duration: $transformDuration;
-        &:hover {
-          opacity: 1;
-        }
-        &:after {
-          content: ' ';
-          height: $triangle;
-          width: $triangle;
-          background-color: $contentBackground;
-          position: absolute;
-          bottom: -55px;
-          left: 50%;
-          margin-left: $triangleMargin;
-          text-align: center;
-          -webkit-transform: rotate(45deg) scale(0, 0);
-          -moz-transform:    rotate(45deg) scale(0, 0);
-          -ms-transform:     rotate(45deg) scale(0, 0);
-          -o-transform:      rotate(45deg) scale(0, 0);
-          transform:         rotate(45deg) scale(0, 0);
-          transition-duration: $transformDuration;
-          border-radius: $radius;
-        }
+        z-index: 9;
+        background-color: black;
       }
-      .tab__link__active {
-        opacity: 1;
-        overflow: hidden;
 
-        &:after {
-          -webkit-transform: rotate(45deg) scale(1, 1);
-          -moz-transform:    rotate(45deg) scale(1, 1);
-          -ms-transform:     rotate(45deg) scale(1, 1);
-          -o-transform:      rotate(45deg) scale(1, 1);
-          transform:         rotate(45deg) scale(1, 1);
+      .content {
+        max-width: 600px;
+        font-size: 18px;
+        margin: 0 auto 50px;
+        white-space: pre-wrap;
+        color: white;
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 15px 15px 25px;
+
+        div {
+          &:last-child {
+            a {
+              br {
+                display: none;
+              }
+            }
+          }
+        }
+
+        a {
+          color: white;
+          &:hover {
+            color: rgba( 255, 255, 255, 0.75);
+          }
         }
       }
 
-      .text__left {
-        text-align:l eft;
+      @media (max-width: 630px) {
+        header,
+        .content {
+          margin-top: 0;
+          margin-bottom: 0px;
+        }
+        .content {
+          padding-bottom: 50px;
+        }
       }
-      .text__right {
-        text-align: right;
-      }
-      .text__center {
-        text-align: center;
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+
       }
     }
   }
