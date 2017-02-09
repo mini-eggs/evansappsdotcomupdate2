@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 const renderTab = (tab, index) => {
   const slug = tab.slug || tab.url
-  const attribute = slug.indexOf('http') > -1 ? 'href' : 'to'
+  const attribute = slug.indexOf('http') > -1 || slug.indexOf('mailto') > -1 ? 'href' : 'to'
   const link = {}
   link[ attribute ] = slug
   return <Link key={index} {...link} className="link" activeClassName="link__active">{tab.name}</Link>
