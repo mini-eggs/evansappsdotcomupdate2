@@ -1,4 +1,4 @@
-// @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
+@import "../css/reset.css";
 
 * {
   outline: none !important;
@@ -29,6 +29,7 @@ html {
       .content {
         animation-duration: 400ms;
         animation-fill-mode: both;
+        animation-name: fadeInUp;
       }
 
       @keyframes fadeInUp {
@@ -43,13 +44,8 @@ html {
         }
       }
 
-      .content {
-        animation-name: fadeInUp;
-      }
-
       .nav__container {
-        // background-color: #333;
-        background-color: rgba(255,255,255,0.2);
+        background-color: #333333;
         overflow: auto;
         white-space: nowrap;
 
@@ -67,6 +63,52 @@ html {
         }
       }
 
+      .nav__container.nav__active {
+        margin: 0 auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+
+        @media (min-width: 630px) {
+          left: 50%;
+          width: 630px;
+          margin-left: -315px;
+        }
+      }
+
+      .nav__container.nav__active {
+        animation-duration: 400ms;
+        animation-fill-mode: both;
+        animation-name: slideDown;
+      }
+      @keyframes slideDown {
+        from {
+          transform: translate3d(0, -100%, 0);
+        }
+        to {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+      .nav__container.nav__active.nav__inactive {
+        animation-duration: 400ms;
+        animation-fill-mode: both;
+        animation-name: slideUp;
+      }
+      @keyframes slideUp {
+        from {
+          transform: translate3d(0, 0, 0);
+        }
+
+        to {
+          transform: translate3d(0, -100%, 0);
+        }
+      }
+
+      .fadeOut {
+        animation-name: fadeOut;
+      }
+
       .container-fluid {
         padding: 0;
       }
@@ -76,7 +118,6 @@ html {
         margin: 15px auto 0;
         position: relative;
         z-index: 9;
-        background-color: black;
       }
 
       .content {

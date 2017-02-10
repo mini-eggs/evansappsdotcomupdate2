@@ -1,12 +1,7 @@
-import { connect } from 'react-redux'
-import { renderPage, findPage } from './EvansAppsPage'
+import { EvansAppsItem, getProps, directError, connect } from './EvansAppsPage'
 
-const EvansAppsPost = props => {
-  return renderPage( findPage( props.pages, props.routeParams.blog ) )
+const connector = state => {
+  return getProps( state, 'blogPost', )
 }
 
-const getProps = state => {
-  return { pages: state.entries ? state.entries.blogPost : [] }
-}
-
-export default connect(getProps)(EvansAppsPost)
+export default connect(connector, { directError })(EvansAppsItem)

@@ -26,7 +26,7 @@ const routes = (
         component={EvansAppsBlog} 
       />
       <Route
-        path={':blog'}
+        path={':blogPost'}
         component={EvansAppsPost} 
       />
     </Route>

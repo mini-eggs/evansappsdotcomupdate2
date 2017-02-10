@@ -1,3 +1,5 @@
+import { push } from 'react-router-redux'
+import { browserHistory } from 'react-router'
 import { CALL_CONTENTFUL } from '../middleware/contentful'
 
 export const CONTENTFUL_REQUEST = 'CONTENTFUL_REQUEST'
@@ -11,5 +13,12 @@ const fetchEntries = () => ({
 })
 
 export const loadEntries = () => dispatch => {
-  return dispatch(fetchEntries())
+  return dispatch( fetchEntries() )
+}
+
+export const directError = () => dispatch => {
+  return [
+    dispatch( push( '/' ) ),
+    browserHistory.push( '/' )
+  ]
 }

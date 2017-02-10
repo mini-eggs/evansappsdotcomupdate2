@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { loadEntries } from '../actions'
 import EvansAppsHeader from '../components/EvansAppsHeader'
 
-const load = fn => {
+export const load = fn => {
   const style = { img: { opacity: 0 } }
   const loader = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
   return (
