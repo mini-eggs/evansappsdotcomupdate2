@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import { Observable } from 'rxjs'
 
 const renderTab = (tab, index) => {
   const slug = tab.slug || tab.url
@@ -15,42 +16,74 @@ class EvansAppsHeader extends React.Component {
   defaultRootClass = ' nav__container '
   activeRootClass = ' nav__container nav__active '
   inactiveRootClass = ' nav__container nav__active nav__inactive '
-  activeRange = 250
+  activeRange = 100
 
   constructor ( props ) {
     super ( props )
     this.state = {
       listener: undefined,
-      rootClass: this.defaultRootClass
+      rootClass: this.defaultRootClass,
+      disposers: []
     }
   }
 
   componentWillReceiveProps ( props ) {
+    // this will be hit when route changes
+    document.getElementById( 'root' ).style.marginTop = 0
+    document.getElementById( 'root' ).style.transitionDuration = '0ms'
     window.scrollTo( 0 , 0 )
     this.setState({ rootClass: this.defaultRootClass })
   }
 
   componentDidMount () {
-    window.addEventListener('scroll', this.scrollHandle)
-    window.addEventListener('resize', this.scrollHandle)
+
+    const scrollObserver = Observable.fromEvent( window, 'scroll' )
+    const scrollObserverDisposer = scrollObserver.subscribe( this.scrollHandleHide )
+
+
+    const scrollObserverDebounced = scrollObserver.debounce( () => Observable.interval(750) )
+    const scrollObserverDebouncedDisposer = scrollObserverDebounced.subscribe( this.scrollHandle )
+
+    this.setState({
+      disposers: [
+        scrollObserverDisposer,
+        scrollObserverDebouncedDisposer
+      ]
+    })
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', this.scrollHandle)
-    window.removeEventListener('resize', this.scrollHandle)
+    this.state.disposers.forEach( observer => { observer.unsubscribe() })
   }
 
-  scrollHandle = () => {
+  scrollHandleHide = () => {
     const headerHeight = document.getElementsByClassName( this.defaultRootClass )[0].offsetHeight
-    if( window.pageYOffset > this.activeRange && ( this.state.rootClass === this.defaultRootClass || this.state.rootClass === this.inactiveRootClass ) ) {
-      this.setState({ rootClass: this.activeRootClass })
+    if ( window.pageYOffset <= headerHeight ) {
+      this.setState({ rootClass: this.defaultRootClass }, this.removeMargin)
     }
     else if ( !( window.pageYOffset > this.activeRange ) && this.state.rootClass === this.activeRootClass ) {
       this.setState({ rootClass: this.inactiveRootClass })
     }
-    else if ( window.pageYOffset <= headerHeight ) {
-      this.setState({ rootClass: this.defaultRootClass })
+  }
+
+  scrollHandle = () => {
+    if( window.pageYOffset > this.activeRange && ( this.state.rootClass === this.defaultRootClass || this.state.rootClass === this.inactiveRootClass ) ) {
+      this.setState({ rootClass: this.activeRootClass }, this.addMargin )
     }
+    else {
+      this.scrollHandleHide()
+    }
+  }
+
+  addMargin () {
+    const headerHeight = document.getElementsByClassName( this.activeRootClass )[0].offsetHeight
+    document.getElementById( 'root' ).style.marginTop = '-' + headerHeight + 'px'
+    document.getElementById( 'root' ).style.transitionDuration = '0ms'
+  }
+
+  removeMargin () {
+    document.getElementById( 'root' ).style.marginTop = 0
+    document.getElementById( 'root' ).style.transitionDuration = '1000ms'
   }
 
   render () {
