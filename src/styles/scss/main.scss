@@ -95,6 +95,9 @@ html {
         animation-fill-mode: both;
         animation-name: slideUp;
       }
+      .nav__container.nav__active.nav__inactive.nav__initial {
+        animation-duration: 0ms;
+      }
       @keyframes slideUp {
         from {
           transform: translate3d(0, 0, 0);

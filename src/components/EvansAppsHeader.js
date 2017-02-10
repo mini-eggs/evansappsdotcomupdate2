@@ -16,34 +16,41 @@ class EvansAppsHeader extends React.Component {
   defaultRootClass = ' nav__container '
   activeRootClass = ' nav__container nav__active '
   inactiveRootClass = ' nav__container nav__active nav__inactive '
+  initialInactiveRootClass = ' nav__container nav__active nav__inactive nav__initial '
   activeRange = 100
+  transitionTime = 400
 
   constructor ( props ) {
     super ( props )
     this.state = {
-      listener: undefined,
-      rootClass: this.defaultRootClass,
+      rootClass: this.initialInactiveRootClass,
       disposers: []
     }
   }
 
   componentWillReceiveProps ( props ) {
-    // this will be hit when route changes
-    document.getElementById( 'root' ).style.marginTop = 0
-    document.getElementById( 'root' ).style.transitionDuration = '0ms'
-    window.scrollTo( 0 , 0 )
-    this.setState({ rootClass: this.defaultRootClass })
+    this.setState({ rootClass: this.initialInactiveRootClass }, () => {
+      this.destroyEvents()
+      window.scrollTo( 0 , 0 )
+      setTimeout( () => {
+        this.createEvents()
+      }, this.transitionTime)
+    })
   }
 
   componentDidMount () {
+    this.createEvents()
+  }
 
+  componentWillUnmount () {
+    this.destroyEvents()
+  }
+
+  createEvents () {
     const scrollObserver = Observable.fromEvent( window, 'scroll' )
     const scrollObserverDisposer = scrollObserver.subscribe( this.scrollHandleHide )
-
-
     const scrollObserverDebounced = scrollObserver.debounce( () => Observable.interval(750) )
     const scrollObserverDebouncedDisposer = scrollObserverDebounced.subscribe( this.scrollHandle )
-
     this.setState({
       disposers: [
         scrollObserverDisposer,
@@ -52,14 +59,14 @@ class EvansAppsHeader extends React.Component {
     })
   }
 
-  componentWillUnmount () {
+  destroyEvents () {
     this.state.disposers.forEach( observer => { observer.unsubscribe() })
   }
 
   scrollHandleHide = () => {
     const headerHeight = document.getElementsByClassName( this.defaultRootClass )[0].offsetHeight
     if ( window.pageYOffset <= headerHeight ) {
-      this.setState({ rootClass: this.defaultRootClass }, this.removeMargin)
+      this.setState({ rootClass: this.inactiveRootClass })
     }
     else if ( !( window.pageYOffset > this.activeRange ) && this.state.rootClass === this.activeRootClass ) {
       this.setState({ rootClass: this.inactiveRootClass })
@@ -68,30 +75,23 @@ class EvansAppsHeader extends React.Component {
 
   scrollHandle = () => {
     if( window.pageYOffset > this.activeRange && ( this.state.rootClass === this.defaultRootClass || this.state.rootClass === this.inactiveRootClass ) ) {
-      this.setState({ rootClass: this.activeRootClass }, this.addMargin )
+      this.setState({ rootClass: this.activeRootClass })
     }
     else {
       this.scrollHandleHide()
     }
   }
 
-  addMargin () {
-    const headerHeight = document.getElementsByClassName( this.activeRootClass )[0].offsetHeight
-    document.getElementById( 'root' ).style.marginTop = '-' + headerHeight + 'px'
-    document.getElementById( 'root' ).style.transitionDuration = '0ms'
-  }
-
-  removeMargin () {
-    document.getElementById( 'root' ).style.marginTop = 0
-    document.getElementById( 'root' ).style.transitionDuration = '1000ms'
-  }
-
   render () {
+    const tabs = this.props.tabs.map(renderTab)
     return (
-      <div className={this.state.rootClass}>
-        {
-          this.props.tabs.map(renderTab)
-        }
+      <div>
+        <div className={this.defaultRootClass}>
+          {tabs}
+        </div>
+        <div className={this.state.rootClass}>
+          {tabs}
+        </div>
       </div>
     )
   }
